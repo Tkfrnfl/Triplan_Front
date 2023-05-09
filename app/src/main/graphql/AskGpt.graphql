@@ -1,0 +1,5 @@
+mutation AskGpt($question: String!) {
+    askGpt(question: $question) {
+        question
+    }
+}
