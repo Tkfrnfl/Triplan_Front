@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.apollographql.apollo3' version '3.8.1'
 }
 
 android {
@@ -29,9 +30,20 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs = ['-Xjvm-default=enable']
+    }
+
+}
+apollo {
+    service("triplan") {
+        packageName.set("app.triplan")
+
+        introspection {
+            endpointUrl.set("http://localhost:8080/graphql")
+            schemaFile.set(file("src/main/graphql/app/triplan/schema.graphqls"))
+        }
     }
 }
-
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -53,4 +65,5 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.3.3")
 
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
+    //implementation ("com.apollographql.apollo3:apollo-runtime:3.8.1")
 }
