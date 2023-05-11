@@ -34,13 +34,15 @@ android {
     }
 
 }
+
+
 apollo {
     service("triplan") {
-        packageName.set("app.triplan")
+        packageName.set("com.example.triplan")
 
-        introspection {
+        introspection {   // graphql schema generate
             endpointUrl.set("http://localhost:8080/graphql")
-            schemaFile.set(file("src/main/graphql/app/triplan/schema.graphqls"))
+            schemaFile.set(file("app/src/main/graphql/schema.graphqls"))
         }
     }
 }
@@ -65,5 +67,5 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.3.3")
 
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
-    //implementation ("com.apollographql.apollo3:apollo-runtime:3.8.1")
+    implementation ("com.apollographql.apollo3:apollo-runtime:3.8.1")
 }
