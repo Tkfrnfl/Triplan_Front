@@ -29,6 +29,16 @@
         </activity>
         <activity android:name=".view.GptAskActivity"></activity>
         <activity android:name=".TheApplication"></activity>
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="oauth"
+                    android:scheme="2af358120f051fdcfe738ee3768e7d71" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
