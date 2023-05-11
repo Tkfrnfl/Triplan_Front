@@ -38,7 +38,7 @@
                 <data android:host="oauth"
                     android:scheme="2af358120f051fdcfe738ee3768e7d71" />
             </intent-filter>
-        </activity
+        </activity>
     </application>
 
 </manifest>
