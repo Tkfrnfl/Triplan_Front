@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.DatePicker
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.triplan.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,11 +18,12 @@ class FirstAskActivity:AppCompatActivity() {
         val datePickerStart=findViewById<DatePicker>(R.id.datePicker1)
         val datePickerEnd=findViewById<DatePicker>(R.id.datePicker2)
         val nextBtn: Button =findViewById(R.id.askNextBtn)
+        val locationText:EditText=findViewById(R.id.textLocation)
 
         nextBtn.setOnClickListener {
             Log.d("start",(datePickerStart.month+1).toString()+(datePickerStart.dayOfMonth).toString())
             Log.d("end",(datePickerEnd.month+1).toString()+(datePickerEnd.dayOfMonth).toString())
-
+            Log.d("location",locationText.text.toString())
         }
     }
 }

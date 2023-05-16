@@ -7,19 +7,41 @@
     tools:context=".view.FirstAskActivity">
 
     <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+
+        android:layout_marginTop="16dp"
+        android:text="여행 장소를 적어주세요"
+        app:layout_constraintStart_toStartOf="@+id/textLocation"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+    <EditText
+        android:id="@+id/textLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="여행장소"
+        app:layout_constraintTop_toBottomOf="@id/textView1"
+        tools:layout_editor_absoluteX="-6dp">
+
+    </EditText>
+
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="226dp"
+        android:layout_marginStart="84dp"
         android:text="시작일을 고르세요"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="@+id/datePicker1"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
+        tools:layout_editor_absoluteY="92dp"></TextView>
 
     <DatePicker
         android:id="@+id/datePicker1"
         android:layout_width="320dp"
         android:layout_height="430dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,30 +51,34 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="84dp"
         android:text="종료일을 고르세요"
-        app:layout_constraintBottom_toTopOf="@+id/datePicker2"
-        app:layout_constraintStart_toStartOf="@+id/datePicker1"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"></TextView>
+
+        app:layout_constraintStart_toStartOf="@+id/datePicker2"
+        tools:layout_editor_absoluteY="335dp"></TextView>
 
     <DatePicker
         android:id="@+id/datePicker2"
-        android:layout_width="320dp"
-        android:layout_height="0dp"
+        android:layout_width="313dp"
+        android:layout_height="311dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="37dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.931" />
 
     <Button
         android:id="@+id/askNextBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="다음"
+        android:layout_marginStart="16dp"
 
+        android:text="다음"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="1.0"></Button>
 </androidx.constraintlayout.widget.ConstraintLayout>
