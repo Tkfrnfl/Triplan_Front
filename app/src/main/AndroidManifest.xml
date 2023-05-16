@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
+        android:name=".KakaoApplication"
         android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -28,6 +29,7 @@
                 android:value="" />
         </activity>
         <activity android:name=".view.GptAskActivity"></activity>
+        <activity android:name=".view.LoginActivity"></activity>
         <activity android:name=".TheApplication"></activity>
         <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -36,7 +38,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:host="oauth"
-                    android:scheme="2af358120f051fdcfe738ee3768e7d71" />
+                    android:scheme="kakao2af358120f051fdcfe738ee3768e7d71" />
             </intent-filter>
         </activity>
     </application>
