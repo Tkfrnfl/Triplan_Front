@@ -3,25 +3,14 @@ Built-in Boolean
 """
 scalar Boolean
 
-input KakaoLoginRequestDto {
-  code: String!
-}
-
-type LoginResponseDto {
-  accessToken: String!
-
-  refreshToken: String!
-}
-
 type Mutation {
-  tokenRefresh(request: TokenRefreshRequestDto): LoginResponseDto
 
-  signup(request: KakaoLoginRequestDto): LoginResponseDto
-
+  login: String
   askGpt(question: String!): Question!
 }
 
 type Query {
+
   test: UserInfoDto
 }
 
