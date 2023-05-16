@@ -19,16 +19,25 @@ class MainActivity : AppCompatActivity() {
 
         val gptBtn:Button=findViewById(R.id.gptBtn1)
 
+        val askBtn:Button=findViewById(R.id.askBtn)
+        val loginBtn:Button=findViewById(R.id.loginBtn)
+
         gptBtn.setOnClickListener{
             val nextIntent= Intent(this,GptAskActivity::class.java)
             startActivity(nextIntent)
         }
 
-        val loginBtn:Button=findViewById(R.id.loginBtn)
+
 
         loginBtn.setOnClickListener{
             val nextIntent = Intent(this, LoginActivity::class.java)
             startActivity(nextIntent)
+        }
+
+
+        askBtn.setOnClickListener {
+            val intent=Intent(this,FirstAskActivity::class.java)
+            startActivity(intent)
         }
 
     }
