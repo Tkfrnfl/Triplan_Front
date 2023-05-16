@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.apolloExceptionHandler
 import com.example.triplan.AskGptMutation
-import com.example.triplan.adapter.AskGptMutation_ResponseAdapter
-import com.example.triplan.type.Question
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class GptViewModel :ViewModel(){
+
+@HiltViewModel
+class GptViewModel @Inject constructor() :ViewModel(){
 
     suspend fun firstjob(question:String){
         Log.d("일단인풋4","")

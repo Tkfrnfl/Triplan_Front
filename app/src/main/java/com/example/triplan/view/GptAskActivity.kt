@@ -9,19 +9,18 @@ import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.viewModels
 import com.example.triplan.R
-import com.example.triplan.demoViewModel
 import com.example.triplan.viewModel.GptViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.context.startKoin
+import dagger.hilt.android.AndroidEntryPoint
 
+
+//import org.koin.core.context.startKoin
+
+@AndroidEntryPoint
 class GptAskActivity : AppCompatActivity()  {
-    private  val gptViewModel:GptViewModel by viewModel()
+   private val gptViewModel:GptViewModel by viewModels()
+
 
      override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +30,11 @@ class GptAskActivity : AppCompatActivity()  {
 
 
          val gptBtn: Button =findViewById(R.id.gptBtn2)
-         startKoin {
-             androidContext(this@GptAskActivity)
-             //modules(demoModule)
-             modules(demoViewModel)
-         }
+//         startKoin {
+//             androidContext(this@GptAskActivity)
+//             //modules(demoModule)
+//             modules(demoViewModel)
+//         }
 
          gptBtn.setOnClickListener{
 //             CoroutineScope(Dispatchers.IO).launch{
