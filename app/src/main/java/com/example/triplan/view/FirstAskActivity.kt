@@ -1,5 +1,6 @@
 package com.example.triplan.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -24,6 +25,8 @@ class FirstAskActivity:AppCompatActivity() {
             Log.d("start",(datePickerStart.month+1).toString()+(datePickerStart.dayOfMonth).toString())
             Log.d("end",(datePickerEnd.month+1).toString()+(datePickerEnd.dayOfMonth).toString())
             Log.d("location",locationText.text.toString())
+            val nextIntent = Intent(this, SecondAskActivity::class.java)
+            startActivity(nextIntent)
         }
     }
 }
