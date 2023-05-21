@@ -23,6 +23,7 @@ class SecondAskActivity: AppCompatActivity() {
         val nextBtn: Button = findViewById(R.id.secondAskNextBtn)
         val linearLayout: LinearLayout = findViewById(R.id.tripPlace)
         val addBtn: Button = findViewById(R.id.addButton)
+        val confirmBtn: Button = findViewById(R.id.planConfirmBtn)
 
         val intentByFirstAskActivity=intent;
 
@@ -52,6 +53,12 @@ class SecondAskActivity: AppCompatActivity() {
                 val place = places.text.toString()
                 Log.d("SecondAskActivity", "Place : $place")
             }
+            startActivity(nextIntent)
+        }
+
+        confirmBtn.setOnClickListener{
+            val nextIntent = Intent(this,ConfirmActivity::class.java)
+
             startActivity(nextIntent)
         }
     }
