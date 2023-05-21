@@ -22,10 +22,17 @@ class FirstAskActivity:AppCompatActivity() {
         val locationText:EditText=findViewById(R.id.textLocation)
 
         nextBtn.setOnClickListener {
-            Log.d("start",(datePickerStart.month+1).toString()+(datePickerStart.dayOfMonth).toString())
-            Log.d("end",(datePickerEnd.month+1).toString()+(datePickerEnd.dayOfMonth).toString())
-            Log.d("location",locationText.text.toString())
+            var startDay=(datePickerStart.month+1).toString()+(datePickerStart.dayOfMonth).toString()
+            var endDay=(datePickerEnd.month+1).toString()+(datePickerEnd.dayOfMonth).toString()
+            var location= locationText.text.toString()
+
+            Log.d("start",startDay)
+            Log.d("end",endDay)
+            Log.d("location",location)
             val nextIntent = Intent(this, SecondAskActivity::class.java)
+            nextIntent.putExtra("start",startDay)
+            nextIntent.putExtra("end",endDay)
+            nextIntent.putExtra("location",location)
             startActivity(nextIntent)
         }
     }

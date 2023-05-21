@@ -24,6 +24,10 @@ class SecondAskActivity: AppCompatActivity() {
         val linearLayout: LinearLayout = findViewById(R.id.tripPlace)
         val addBtn: Button = findViewById(R.id.addButton)
 
+        val intentByFirstAskActivity=intent;
+
+        Log.d("intentTest",intentByFirstAskActivity.getStringExtra("start").toString())
+
         addBtn.setOnClickListener {
             val newEditText = EditText(this)
             newEditText.layoutParams = LinearLayout.LayoutParams(
