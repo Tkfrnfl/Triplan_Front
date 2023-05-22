@@ -33,6 +33,8 @@ class FirstAskActivity:AppCompatActivity() {
             nextIntent.putExtra("start",startDay)
             nextIntent.putExtra("end",endDay)
             nextIntent.putExtra("location",location)
+            nextIntent.putExtra("days", endDay.toInt() - startDay.toInt())
+            nextIntent.putExtra("NoD", endDay.toInt() - startDay.toInt())
             startActivity(nextIntent)
         }
     }
