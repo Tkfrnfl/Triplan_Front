@@ -7,6 +7,7 @@ type Mutation {
 
   login: String
   askGpt(question: String!): Question!
+  requestPlanInformation(request: PlanRequestDto!, requests: [DayPlanRequestDto]!): String
 }
 
 type Query {
@@ -16,6 +17,18 @@ type Query {
 
 type Question {
   question: String
+}
+
+input PlanRequestDto {
+  startDate: String!
+  endDate: String!
+  touristArea: String!
+}
+
+input DayPlanRequestDto {
+  startingPoint: String!
+  tripPlaces: [String]!
+  destination: String!
 }
 
 """
