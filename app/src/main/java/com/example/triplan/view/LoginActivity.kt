@@ -10,6 +10,7 @@ import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.exception.ApolloException
+import com.apollographql.apollo3.network.okHttpClient
 import com.example.triplan.LoginMutation
 import com.example.triplan.R
 import com.kakao.sdk.user.UserApiClient
@@ -51,8 +52,18 @@ class LoginActivity: AppCompatActivity() {
 
     private fun sendRequestWithAccessToken() {
 
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val builder = original.newBuilder().method(original.method, original.body)
+                builder.header("Authorization", "Bearer ${getAccessToken()}") // 여기에 토큰을 넣으세요.
+                chain.proceed(builder.build())
+            }
+            .build()
+
         val apolloClient = ApolloClient.Builder()
             .serverUrl("http://10.0.2.2:8080/graphql")
+            .okHttpClient(okHttpClient)
             .build()
 
         runBlocking {
@@ -60,7 +71,7 @@ class LoginActivity: AppCompatActivity() {
                 val response: ApolloResponse<LoginMutation.Data> = apolloClient.mutation(LoginMutation()).execute()
                 val data = response.data.toString()
 
-                Log.v("Response", "data")
+                Log.v("Response", "$data")
             } catch (e: ApolloException) {
                 throw ApolloException("통신 실패 에러")
             }
