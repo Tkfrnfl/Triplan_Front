@@ -44,6 +44,7 @@ class SecondAskActivity : AppCompatActivity() {
         val nextBtn: Button = findViewById(R.id.secondAskNextBtn) // 이곳에 실제 버튼의 id를 입력하세요
         val confirmBtn: Button = findViewById(R.id.planConfirmBtn)
 
+
         if (this.pageNumber > 0) {
             confirmBtn.visibility = View.GONE
         }
@@ -104,17 +105,17 @@ class SecondAskActivity : AppCompatActivity() {
 
         confirmBtn.setOnClickListener {
 
-            sendRequest()
+            val res:String= sendRequest()
             val nextIntent = Intent(this, ConfirmActivity::class.java)
-
+            nextIntent.putExtra("res",res)
             startActivity(nextIntent)
         }
     }
 
-    private fun sendRequest() {
+    private fun sendRequest() :String{
 
         val apolloClient = ApolloClient.Builder()
-            .serverUrl("http://10.0.2.2:8080/graphql")
+            .serverUrl("http://192.168.219.105:8080/graphql")
             .build()
 
         val intentFirstAskActivity = intent
@@ -123,7 +124,9 @@ class SecondAskActivity : AppCompatActivity() {
         val location = intentFirstAskActivity.getStringExtra("location") ?: ""
 
         // PlanRequestDto를 위한 변수
-        val planRequestDto = PlanRequestDto(startDate, endDate, location)
+        //val planRequestDto = PlanRequestDto(startDate, endDate, location)
+        val planRequestDto = PlanRequestDto("1996-03-15", "1996-03-15", location)
+        //임시 변수 설정, Date type 화 필요
 
         // [DayPlanRequestDto]를 위한 변수
         val dayPlanRequestDtoList = mutableListOf<DayPlanRequestDto>()
@@ -138,19 +141,25 @@ class SecondAskActivity : AppCompatActivity() {
         for (i in 0 until dayPlanRequestDtoList.size) {
             Log.d("DayPlanRequestDto", "${dayPlanRequestDtoList[i]}")
         }
-
+        var response: ApolloResponse<RequestPlanInformationMutation.Data>
         runBlocking {
             try {
 
-                val response: ApolloResponse<RequestPlanInformationMutation.Data> =
+                response =
                     apolloClient.mutation(RequestPlanInformationMutation(planRequestDto, dayPlanRequestDtoList.toList())).execute()
+                Log.d("data chk",planRequestDto.toString())
+                Log.d("data chk",dayPlanRequestDtoList.toList().toString())
+                Log.d("res chk", response.data.toString())
+                //val nextIntent = Intent(this@SecondAskActivity, ConfirmActivity::class.java)
 
-                val data = response.data
+                //nextIntent.putExtra("res",response.data.toString())
 
-                Log.v("Response", "$data")
+
             } catch (e: ApolloException) {
+                Log.d("res chk", e.message.toString())
                 throw ApolloException("통신 실패 에러")
             }
         }
+        return  response.data.toString()
     }
 }
