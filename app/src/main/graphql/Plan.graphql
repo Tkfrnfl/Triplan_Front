@@ -1,0 +1,3 @@
+mutation RequestPlanInformation($request: PlanRequestDto!, $requests: [DayPlanRequestDto]!) {
+    requestPlanInformation(request: $request, requests: $requests)
+}가
