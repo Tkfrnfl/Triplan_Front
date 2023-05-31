@@ -1,14 +1,15 @@
 package com.example.triplan.view
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.apollographql.apollo3.ApolloClient
@@ -20,6 +21,10 @@ import com.example.triplan.R
 import com.example.triplan.RequestPlanInformationMutation
 import com.example.triplan.type.DayPlanRequestDto
 import com.example.triplan.type.PlanRequestDto
+import com.google.android.gms.common.api.ApiException
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.PlacesClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
@@ -27,12 +32,14 @@ import okhttp3.OkHttpClient
 @AndroidEntryPoint
 class SecondAskActivity : AppCompatActivity() {
 
-    private val tripPlaces = mutableListOf<EditText>()
+    private val tripPlaces = mutableListOf<AutoCompleteTextView>()
     private var pageNumber = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ask_2)
+
+        Places.initialize(applicationContext, "AIzaSyBRcZ_Jxt8n_t_qktBk5MwGniDVoZiTD_Y")
 
         val intentByAskActivity = intent;
 
@@ -63,20 +70,27 @@ class SecondAskActivity : AppCompatActivity() {
         val noD = intentByAskActivity.getIntExtra("NoD", 0)
 
         addBtn.setOnClickListener {
-            val newEditText = EditText(this)
-            newEditText.layoutParams = LinearLayout.LayoutParams(
+            val newAutoCompleteTextView = AutoCompleteTextView(this)
+            newAutoCompleteTextView.layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
 
-            // addButton을 부모 뷰그룹에서 제거
+            newAutoCompleteTextView.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    performAutoComplete(s.toString(), newAutoCompleteTextView)
+                }
+
+                override fun afterTextChanged(s: Editable) {}
+            })
+
             linearLayout.removeView(addBtn)
 
-            // 새로운 EditText 추가
-            linearLayout.addView(newEditText)
-            tripPlaces.add(newEditText) // 리스트에 EditText 추가
+            linearLayout.addView(newAutoCompleteTextView)
+            tripPlaces.add(newAutoCompleteTextView)
 
-            // addButton 다시 추가
             linearLayout.addView(addBtn)
         }
 
@@ -161,5 +175,24 @@ class SecondAskActivity : AppCompatActivity() {
             }
         }
         return  response.data.toString()
+    }
+
+    private fun performAutoComplete(query: String, autoCompleteTextView: AutoCompleteTextView) {
+
+        val placesClient: PlacesClient = Places.createClient(this)
+
+        val request = FindAutocompletePredictionsRequest.builder()
+            .setQuery(query)
+            .build()
+
+        placesClient.findAutocompletePredictions(request).addOnSuccessListener { response ->
+            val predictionList = response.autocompletePredictions.map { it.getFullText(null).toString() }
+            val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, predictionList)
+            autoCompleteTextView.setAdapter(adapter)
+        }.addOnFailureListener { exception ->
+            if (exception is ApiException) {
+                Log.e(TAG, "Place not found: " + exception.statusCode)
+            }
+        }
     }
 }
