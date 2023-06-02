@@ -3,10 +3,12 @@ package com.example.triplan.view
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -72,7 +74,7 @@ class SecondAskActivity : AppCompatActivity() {
         addBtn.setOnClickListener {
             val newAutoCompleteTextView = AutoCompleteTextView(this)
             newAutoCompleteTextView.layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                dpToPx(250),
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
 
@@ -195,4 +197,9 @@ class SecondAskActivity : AppCompatActivity() {
             }
         }
     }
+    private fun dpToPx(dp: Int): Int {
+        val density = Resources.getSystem().displayMetrics.density
+        return (dp * density).toInt()
+    }
+
 }
