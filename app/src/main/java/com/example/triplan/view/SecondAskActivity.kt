@@ -21,6 +21,8 @@ import com.apollographql.apollo3.exception.ApolloException
 import com.apollographql.apollo3.network.okHttpClient
 import com.example.triplan.R
 import com.example.triplan.RequestPlanInformationMutation
+import com.example.triplan.geocoding.GeocodingResponse
+import com.example.triplan.geocoding.GeocodingService
 import com.example.triplan.type.DayPlanRequestDto
 import com.example.triplan.type.PlanRequestDto
 import com.google.android.gms.common.api.ApiException
@@ -28,8 +30,13 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 @AndroidEntryPoint
 class SecondAskActivity : AppCompatActivity() {
@@ -100,7 +107,7 @@ class SecondAskActivity : AppCompatActivity() {
             val nextIntent = Intent(this, SecondAskActivity::class.java)
             tripPlaces.forEach { places ->
                 val place = places
-                Log.d("SecondAskActivity", "Place : $place")
+                Log.d("SecondAskActivity", "Place : ${place.text.toString()}")
             }
             nextIntent.putExtra("start", startDay)
             nextIntent.putExtra("end", endDay)
@@ -110,25 +117,43 @@ class SecondAskActivity : AppCompatActivity() {
 
             for (i in pageNumber + 1..noD) {
                 val tripPlacesText = intentByAskActivity.getStringArrayExtra("tripPlaces$i")
+                Log.d("TripPlacesText", "$tripPlacesText")
                 nextIntent.putExtra("tripPlaces$i", tripPlacesText)
             }
+            CoroutineScope(Dispatchers.IO).launch {
+                val tripPlaceText = mutableListOf<String>()
+                for (tripPlace in tripPlaces) {
+                    tripPlaceText.add(changeAddressToLocation(tripPlace.text.toString()))
+                }
 
-            val tripPlacesText = tripPlaces.map { it.text.toString() }
-            nextIntent.putExtra("tripPlaces$pageNumber", tripPlacesText.toTypedArray())
+                withContext(Dispatchers.Main) {
+                    nextIntent.putExtra("tripPlaces$pageNumber", tripPlaceText.toTypedArray())
 
-            startActivity(nextIntent)
+                    startActivity(nextIntent)
+                }
+            }
         }
 
         confirmBtn.setOnClickListener {
 
-            val res:String= sendRequest()
-            val nextIntent = Intent(this, ConfirmActivity::class.java)
-            nextIntent.putExtra("res",res)
-            startActivity(nextIntent)
+            CoroutineScope(Dispatchers.IO).launch {
+                val tripPlaceText = mutableListOf<String>()
+                for (tripPlace in tripPlaces) {
+                    tripPlaceText.add(changeAddressToLocation(tripPlace.text.toString()))
+                }
+
+                withContext(Dispatchers.Main) {
+                    val res:String= sendRequest(tripPlaceText)
+                    val nextIntent = Intent(this@SecondAskActivity, ConfirmActivity::class.java)
+                    nextIntent.putExtra("res",res)
+                    startActivity(nextIntent)
+                }
+            }
+
         }
     }
 
-    private fun sendRequest() :String{
+    private fun sendRequest(tripPlaceText: MutableList<String>) :String{
 
         val apolloClient = ApolloClient.Builder()
             .serverUrl("http://192.168.219.105:8080/graphql")
@@ -151,11 +176,11 @@ class SecondAskActivity : AppCompatActivity() {
             val trip = intentFirstAskActivity.getStringArrayExtra("tripPlaces$i")!!.toList()
             dayPlanRequestDtoList.add(DayPlanRequestDto(trip[0], trip, trip[trip.size - 1]))
         }
-        val tripPlaceText = tripPlaces.map { it.text.toString() }
+
         dayPlanRequestDtoList.add(DayPlanRequestDto(tripPlaceText[0], tripPlaceText, tripPlaceText[tripPlaceText.size - 1]))
 
         for (i in 0 until dayPlanRequestDtoList.size) {
-            Log.d("DayPlanRequestDto", "${dayPlanRequestDtoList[i]}")
+            Log.d("DayPlanRequestDto", "${dayPlanRequestDtoList[i].tripPlaces}")
         }
         var response: ApolloResponse<RequestPlanInformationMutation.Data>
         runBlocking {
@@ -202,4 +227,27 @@ class SecondAskActivity : AppCompatActivity() {
         return (dp * density).toInt()
     }
 
+    private suspend fun changeAddressToLocation(address: String): String {
+
+        // retrofit은 시간이 오래 걸리는 작업이기 때문에, 추후에 꼭 앱 시작할 때 한번만 수행되도록 고치기!
+        val retrofit = Retrofit.Builder().baseUrl("https://maps.googleapis.com/").addConverterFactory(GsonConverterFactory.create()).build()
+        val service : GeocodingService = retrofit.create(GeocodingService::class.java)
+
+        val response = withContext(Dispatchers.IO) {
+            service.getCoordinates(address, "AIzaSyBRcZ_Jxt8n_t_qktBk5MwGniDVoZiTD_Y").execute()
+        }
+
+        if (response.isSuccessful) {
+            val geocodingResponse = response.body()
+            val location = geocodingResponse?.results?.getOrNull(0)?.geometry?.location
+            if (location != null) {
+                return "${location?.lat}, ${location?.lng}"
+            } else {
+                return ""
+            }
+        } else {
+            Log.e("Error on geocoding", "Error: ${response.errorBody()}")
+            return ""
+        }
+    }
 }
