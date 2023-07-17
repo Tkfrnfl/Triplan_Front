@@ -24,16 +24,16 @@
             android:id="@+id/planBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/purple_500"
+            android:layout_marginRight="5dp"
             android:text="내 계획"/>
         <Button
             android:id="@+id/scrapBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/purple_500"
             android:text="내 평가"/>
         <Button
             android:id="@+id/homeBtn"
