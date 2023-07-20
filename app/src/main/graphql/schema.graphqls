@@ -8,11 +8,13 @@ type Mutation {
   login: String
   askGpt(question: String!): Question!
   requestPlanInformation(request: PlanRequestDto!, requests: [DayPlanRequestDto]!): String
+  evaluatePlan(request:PlanEvaluateDto):EvaluateResponseDto
 }
 
 type Query {
 
   test: UserInfoDto
+  requestEvaluateInfo(request:EvaluateRequestDto):EvaluateResponseDto
 }
 
 type Question {
@@ -29,6 +31,23 @@ input DayPlanRequestDto {
   startingPoint: String!
   tripPlaces: [String]!
   destination: String!
+}
+input EvaluateRequestDto{
+  userId:Int
+  planId:Int
+}
+type EvaluateResponseDto{
+  userId:Int
+  planId:Int
+  evaluateId:Int
+  rating:Int
+  detail:String
+}
+input PlanEvaluateDto{
+  userId:Int
+  planId:Int
+  rating:Int
+  detail:String
 }
 
 """

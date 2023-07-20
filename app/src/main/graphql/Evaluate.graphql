@@ -1,0 +1,9 @@
+mutation EvaluatePlan($request:PlanEvaluateDto) {
+    evaluatePlan(request: $request){
+        userId
+        planId
+        evaluateId
+        rating
+        detail
+    }
+}
