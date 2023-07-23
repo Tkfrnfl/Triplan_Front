@@ -45,6 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/loginBtn"
         />
 
+<<<<<<< HEAD
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
@@ -61,5 +62,16 @@
         android:text="Button"
         tools:layout_editor_absoluteX="315dp"
         tools:layout_editor_absoluteY="496dp" />
+=======
+    <Button
+        android:id="@+id/myPageBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Page"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/askBtn"
+        />
+>>>>>>> 5a086cd492d3969cd3b85d4ca9c000c01d47be86
 
 </androidx.constraintlayout.widget.ConstraintLayout>
