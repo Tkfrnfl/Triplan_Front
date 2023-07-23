@@ -12,5 +12,8 @@ query EvaluatePlanGet($request:EvaluateRequestDto) {
     requestEvaluateInfo(request: $request){
         userId
         planId
+        evaluateId
+        rating
+        detail
     }
 }

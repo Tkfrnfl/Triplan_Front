@@ -14,7 +14,7 @@ type Mutation {
 type Query {
 
   test: UserInfoDto
-  requestEvaluateInfo(request:EvaluateRequestDto):EvaluateResponseDto
+  requestEvaluateInfo(request:EvaluateRequestDto):[EvaluateResponseDto]
 }
 
 type Question {
@@ -34,7 +34,7 @@ input DayPlanRequestDto {
 }
 input EvaluateRequestDto{
   userId:Int
-  planId:Int
+  #planId:Int
 }
 type EvaluateResponseDto{
   userId:Int
