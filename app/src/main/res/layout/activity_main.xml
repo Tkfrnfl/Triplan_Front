@@ -45,24 +45,6 @@
         app:layout_constraintTop_toBottomOf="@+id/loginBtn"
         />
 
-<<<<<<< HEAD
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="플랜"
-        tools:layout_editor_absoluteX="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="477dp" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="39dp"
-        android:layout_height="30dp"
-        android:text="Button"
-        tools:layout_editor_absoluteX="315dp"
-        tools:layout_editor_absoluteY="496dp" />
-=======
     <Button
         android:id="@+id/myPageBtn"
         android:layout_width="wrap_content"
@@ -72,6 +54,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/askBtn"
         />
->>>>>>> 5a086cd492d3969cd3b85d4ca9c000c01d47be86
 
 </androidx.constraintlayout.widget.ConstraintLayout>

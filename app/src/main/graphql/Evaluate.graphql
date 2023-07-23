@@ -1,9 +1,16 @@
-mutation EvaluatePlan($request:PlanEvaluateDto) {
+mutation EvaluatePlanPost($request:PlanEvaluateDto) {
     evaluatePlan(request: $request){
         userId
         planId
         evaluateId
         rating
         detail
+    }
+}
+
+query EvaluatePlanGet($request:EvaluateRequestDto) {
+    requestEvaluateInfo(request: $request){
+        userId
+        planId
     }
 }
