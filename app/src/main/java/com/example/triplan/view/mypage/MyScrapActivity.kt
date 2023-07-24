@@ -33,6 +33,7 @@ class MyScrapActivity: AppCompatActivity() {
         val planBtn: Button = findViewById(R.id.planBtn)
         val scrapBtn: Button = findViewById(R.id.scrapBtn)
         val homeBtn: Button = findViewById(R.id.homeBtn)
+        val withdrawalBtn: Button = findViewById(R.id.withdrawalBtn)
 
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -84,5 +85,9 @@ class MyScrapActivity: AppCompatActivity() {
             startActivity(nextIntent)
         }
 
+        withdrawalBtn.setOnClickListener {
+            val nextIntent = Intent(this, WithdrawalActivity::class.java)
+            startActivity(nextIntent)
+        }
     }
 }
