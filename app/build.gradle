@@ -82,7 +82,9 @@ dependencies {
 
     implementation('com.google.android.libraries.places:places:3.1.0')
 
-    // Hilt
+    implementation("androidx.recyclerview:recyclerview")
+
+   // Hilt
     implementation "com.google.dagger:hilt-android:2.46.1"
     kapt "com.google.dagger:hilt-android-compiler:2.46.1"
 }
