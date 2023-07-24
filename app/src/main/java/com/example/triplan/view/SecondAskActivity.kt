@@ -56,7 +56,6 @@ class SecondAskActivity : AppCompatActivity() {
         val addBtn: Button = findViewById(R.id.addButton)
         val linearLayout: LinearLayout = findViewById(R.id.tripPlace)
 
-        val addButton: Button = findViewById(R.id.addButton) // 이곳에 실제 버튼의 id를 입력하세요
         val nextBtn: Button = findViewById(R.id.secondAskNextBtn) // 이곳에 실제 버튼의 id를 입력하세요
         val confirmBtn: Button = findViewById(R.id.planConfirmBtn)
 
