@@ -25,10 +25,14 @@ import com.example.triplan.geocoding.GeocodingResponse
 import com.example.triplan.geocoding.GeocodingService
 import com.example.triplan.type.DayPlanRequestDto
 import com.example.triplan.type.PlanRequestDto
+import com.example.triplan.view.result.Plan
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import okhttp3.OkHttpClient
@@ -37,6 +41,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class SecondAskActivity : AppCompatActivity() {
@@ -155,7 +160,7 @@ class SecondAskActivity : AppCompatActivity() {
     private fun sendRequest(tripPlaceText: MutableList<String>) :String{
 
         val apolloClient = ApolloClient.Builder()
-            .serverUrl("http://192.168.219.105:8080/graphql")
+            .serverUrl("http://10.0.2.2:8080/graphql")
             .build()
 
         val intentFirstAskActivity = intent
@@ -165,7 +170,7 @@ class SecondAskActivity : AppCompatActivity() {
 
         // PlanRequestDto를 위한 변수
         //val planRequestDto = PlanRequestDto(startDate, endDate, location)
-        val planRequestDto = PlanRequestDto("1996-03-15", "1996-03-15", location)
+        val planRequestDto = PlanRequestDto(startDate, endDate, location)
         //임시 변수 설정, Date type 화 필요
 
         // [DayPlanRequestDto]를 위한 변수
@@ -187,6 +192,14 @@ class SecondAskActivity : AppCompatActivity() {
 
                 response =
                     apolloClient.mutation(RequestPlanInformationMutation(planRequestDto, dayPlanRequestDtoList.toList())).execute()
+
+                val jsonResponse = response.data.toString()  // response.data.toString()의 값
+                Log.d("jsonResponse", jsonResponse)
+                val startIndex = jsonResponse.indexOf("{", jsonResponse.indexOf("requestPlanInformation"))
+                Log.d("startIndex", startIndex.toString())
+                val endIndex = jsonResponse.lastIndexOf("}") + 1
+                Log.d("endIndex", endIndex.toString())
+
                 Log.d("data chk",planRequestDto.toString())
                 Log.d("data chk",dayPlanRequestDtoList.toList().toString())
                 Log.d("res chk", response.data.toString())
