@@ -53,7 +53,7 @@ class SecondAskActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ask_2)
 
-        Places.initialize(applicationContext, "AIzaSyBRcZ_Jxt8n_t_qktBk5MwGniDVoZiTD_Y")
+        Places.initialize(applicationContext, "AIzaSyDMZO6Pyxqf7Zyygjo0IuybW9rqdiiaPmU")
 
         val intentByAskActivity = intent;
 
@@ -149,7 +149,7 @@ class SecondAskActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     val res:String= sendRequest(tripPlaceText)
                     val nextIntent = Intent(this@SecondAskActivity, ConfirmActivity::class.java)
-                    nextIntent.putExtra("res",res)
+                    nextIntent.putExtra("res",res.toString())
                     startActivity(nextIntent)
                 }
             }
@@ -160,7 +160,7 @@ class SecondAskActivity : AppCompatActivity() {
     private fun sendRequest(tripPlaceText: MutableList<String>) :String{
 
         val apolloClient = ApolloClient.Builder()
-            .serverUrl("http://10.0.2.2:8080/graphql")
+            .serverUrl("http://172.30.1.77:8080/graphql")
             .build()
 
         val intentFirstAskActivity = intent
@@ -170,7 +170,7 @@ class SecondAskActivity : AppCompatActivity() {
 
         // PlanRequestDto를 위한 변수
         //val planRequestDto = PlanRequestDto(startDate, endDate, location)
-        val planRequestDto = PlanRequestDto(startDate, endDate, location)
+        val planRequestDto = PlanRequestDto("1998-06-15", "1998-06-15", location)
         //임시 변수 설정, Date type 화 필요
 
         // [DayPlanRequestDto]를 위한 변수
@@ -193,12 +193,6 @@ class SecondAskActivity : AppCompatActivity() {
                 response =
                     apolloClient.mutation(RequestPlanInformationMutation(planRequestDto, dayPlanRequestDtoList.toList())).execute()
 
-                val jsonResponse = response.data.toString()  // response.data.toString()의 값
-                Log.d("jsonResponse", jsonResponse)
-                val startIndex = jsonResponse.indexOf("{", jsonResponse.indexOf("requestPlanInformation"))
-                Log.d("startIndex", startIndex.toString())
-                val endIndex = jsonResponse.lastIndexOf("}") + 1
-                Log.d("endIndex", endIndex.toString())
 
                 Log.d("data chk",planRequestDto.toString())
                 Log.d("data chk",dayPlanRequestDtoList.toList().toString())
@@ -213,7 +207,7 @@ class SecondAskActivity : AppCompatActivity() {
                 throw ApolloException("통신 실패 에러")
             }
         }
-        return  response.data.toString()
+        return response.data.toString()
     }
 
     private fun performAutoComplete(query: String, autoCompleteTextView: AutoCompleteTextView) {
@@ -246,7 +240,7 @@ class SecondAskActivity : AppCompatActivity() {
         val service : GeocodingService = retrofit.create(GeocodingService::class.java)
 
         val response = withContext(Dispatchers.IO) {
-            service.getCoordinates(address, "AIzaSyBRcZ_Jxt8n_t_qktBk5MwGniDVoZiTD_Y").execute()
+            service.getCoordinates(address, "AIzaSyDMZO6Pyxqf7Zyygjo0IuybW9rqdiiaPmU").execute()
         }
 
         if (response.isSuccessful) {

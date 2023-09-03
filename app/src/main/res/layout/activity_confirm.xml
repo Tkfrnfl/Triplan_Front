@@ -7,17 +7,17 @@
     tools:context=".view.ConfirmActivity">
 
     <TextView
-        android:id="@+id/confirmView"
-        android:layout_width="wrap_content"
+        android:id="@+id/touristAreaView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
 
-        android:text="confirmView"
+        android:text="TouristArea"
+        android:textSize="40dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <LinearLayout
@@ -25,13 +25,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/confirmView"
+        app:layout_constraintTop_toBottomOf="@+id/touristAreaView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
         android:layout_marginStart="50dp">
-
 
 
     </LinearLayout>
@@ -40,6 +39,7 @@
         android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="52dp"
         android:text="돌아가기"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
