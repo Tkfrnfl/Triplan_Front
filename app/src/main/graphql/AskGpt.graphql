@@ -1,5 +1,3 @@
 mutation AskGpt($question: String!) {
-    askGpt(question: $question) {
-        question
-    }
+    askGpt(question: $question)
 }

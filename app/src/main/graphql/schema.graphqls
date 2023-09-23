@@ -6,7 +6,7 @@ scalar Boolean
 type Mutation {
 
   login: String
-  askGpt(question: String!): Question!
+  askGpt(question: String!): [String]!
   requestPlanInformation(request: PlanRequestDto!, requests: [DayPlanRequestDto]!): String
   evaluatePlan(request:PlanEvaluateDto):EvaluateResponseDto
 }
@@ -17,9 +17,9 @@ type Query {
   requestEvaluateInfo(request:EvaluateRequestDto):[EvaluateResponseDto]
 }
 
-type Question {
-  question: String
-}
+#type Question {
+#  question: [String]
+#}
 
 input PlanRequestDto {
   startDate: String!

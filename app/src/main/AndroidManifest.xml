@@ -30,6 +30,7 @@
                 android:value="" />
         </activity>
         <activity android:name=".view.GptAskActivity"/>
+        <activity android:name=".view.GptResultActivity"/>
         <activity android:name=".view.LoginActivity" />
         <activity android:name=".view.FirstAskActivity" />
         <activity android:name=".view.SecondAskActivity" />

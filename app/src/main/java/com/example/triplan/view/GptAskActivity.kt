@@ -3,16 +3,15 @@ package com.example.triplan.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
-import android.view.KeyEvent.KEYCODE_ENTER
-import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.viewModels
 import com.example.triplan.R
 import com.example.triplan.viewModel.GptViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 //import org.koin.core.context.startKoin
@@ -40,7 +39,16 @@ class GptAskActivity : AppCompatActivity()  {
 //             CoroutineScope(Dispatchers.IO).launch{
 //                 async { gptViewModel.questionAsk(question.text.toString()) }
 //             }
-             gptViewModel.questionAsk(question.text.toString())
+             CoroutineScope(Dispatchers.Main).launch {
+             val res =gptViewModel.firstjob(question.text.toString())
+             val resList:ArrayList<String>
+             resList= res.data!!.askGpt as ArrayList<String>
+
+                 val nextIntent = Intent(this@GptAskActivity, GptResultActivity::class.java)
+                 nextIntent.putExtra("res",resList);
+
+                 startActivity(nextIntent)
+             }
          }
 
     }
