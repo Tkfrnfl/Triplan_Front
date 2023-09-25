@@ -127,7 +127,7 @@ class SecondAskActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 val tripPlaceText = mutableListOf<String>()
                 for (tripPlace in tripPlaces) {
-                    tripPlaceText.add(changeAddressToLocation(tripPlace.text.toString()))
+                    tripPlaceText.add(tripPlace.text.toString())
                 }
 
                 withContext(Dispatchers.Main) {
@@ -143,7 +143,7 @@ class SecondAskActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 val tripPlaceText = mutableListOf<String>()
                 for (tripPlace in tripPlaces) {
-                    tripPlaceText.add(changeAddressToLocation(tripPlace.text.toString()))
+                    tripPlaceText.add(tripPlace.text.toString())
                 }
 
                 withContext(Dispatchers.Main) {
@@ -160,7 +160,7 @@ class SecondAskActivity : AppCompatActivity() {
     private fun sendRequest(tripPlaceText: MutableList<String>) :String{
 
         val apolloClient = ApolloClient.Builder()
-            .serverUrl("http://172.30.1.77:8080/graphql")
+            .serverUrl("http://172.30.1.85:8080/graphql")
             .build()
 
         val intentFirstAskActivity = intent
@@ -189,7 +189,8 @@ class SecondAskActivity : AppCompatActivity() {
         var response: ApolloResponse<RequestPlanInformationMutation.Data>
         runBlocking {
             try {
-
+                Log.d("planRequest", planRequestDto.toString())
+                Log.d("dayPlanRequestList", dayPlanRequestDtoList.toString())
                 response =
                     apolloClient.mutation(RequestPlanInformationMutation(planRequestDto, dayPlanRequestDtoList.toList())).execute()
 
@@ -231,29 +232,5 @@ class SecondAskActivity : AppCompatActivity() {
     private fun dpToPx(dp: Int): Int {
         val density = Resources.getSystem().displayMetrics.density
         return (dp * density).toInt()
-    }
-
-    private suspend fun changeAddressToLocation(address: String): String {
-
-        // retrofit은 시간이 오래 걸리는 작업이기 때문에, 추후에 꼭 앱 시작할 때 한번만 수행되도록 고치기!
-        val retrofit = Retrofit.Builder().baseUrl("https://maps.googleapis.com/").addConverterFactory(GsonConverterFactory.create()).build()
-        val service : GeocodingService = retrofit.create(GeocodingService::class.java)
-
-        val response = withContext(Dispatchers.IO) {
-            service.getCoordinates(address, "AIzaSyDMZO6Pyxqf7Zyygjo0IuybW9rqdiiaPmU").execute()
-        }
-
-        if (response.isSuccessful) {
-            val geocodingResponse = response.body()
-            val location = geocodingResponse?.results?.getOrNull(0)?.geometry?.location
-            if (location != null) {
-                return "${location?.lat}, ${location?.lng}"
-            } else {
-                return ""
-            }
-        } else {
-            Log.e("Error on geocoding", "Error: ${response.errorBody()}")
-            return ""
-        }
     }
 }

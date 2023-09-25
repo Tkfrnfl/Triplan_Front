@@ -44,65 +44,46 @@ class ConfirmActivity: AppCompatActivity() {
                 LocalDate.parse(json.asJsonPrimitive.asString)
             }).create()
 
-        val plan = gson.fromJson(planJson, Plan::class.java)
+        /*val plan = gson.fromJson(planJson, Plan::class.java)
         touristArea.text = plan.touristArea
 
-        val tripPlaceList: MutableList<String>? = mutableListOf()
-        for (dayPlan in plan.dayPlans) {
+        CoroutineScope(Dispatchers.Main).launch {
+            for (dayPlan in plan.dayPlans) {
 
-            val textView = TextView(this)
-            textView.layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            linearLayout.addView(textView)
-            val stringBuilder = StringBuilder()
-            for (tripPlace in dayPlan.tripPlaces) {
-                if (tripPlace.location.isNullOrEmpty()) {
-                    continue
-                }
-                val parts = tripPlace.location.split(", ")
-
-                val longitude = parts[0].trim().toDouble()
-                val latitude = parts[1].trim().toDouble()
-                var name: String = ""
-                CoroutineScope(Dispatchers.IO).launch {
-                    changeLocationToAddress(latitude, longitude)
-
-                    withContext(Dispatchers.Main) {
-                        tripPlaceList?.forEach { tripPlace ->
-                            stringBuilder.append(tripPlace).append(" -> ")
-                        }
-                        textView.text = stringBuilder.toString()
-                        Log.d("tripPlaceList", tripPlaceList.toString())
+                val textView = TextView(this@ConfirmActivity)
+                textView.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                val stringBuilder = StringBuilder()
+                linearLayout.addView(textView)
+                for (tripPlace in dayPlan.tripPlaces) {
+                    if (tripPlace.location.isNullOrEmpty()) {
+                        continue
                     }
+                    val parts = tripPlace.location.split(", ")
+
+                    val longitude = parts[0].trim().toDouble()
+                    val latitude = parts[1].trim().toDouble()
+                    var name: String = ""
+                    withContext(Dispatchers.IO) {
+                        changeLocationToAddress(latitude, longitude)
+                    }
+                }
+                withContext(Dispatchers.Main) {
+                    val length = tripPlaceList.size
+
+                    for (i in 0 until length - 1) {
+                        stringBuilder.append(tripPlaceList.get(i)).append(" -> ")
+                    }
+
+                    stringBuilder.append(tripPlaceList.get(length - 1))
+
+                    textView.text = stringBuilder.toString()
+                    Log.d("textView", textView.text.toString())
+                    tripPlaceList.clear()
                 }
             }
-
-        }
-    }
-
-    private suspend fun changeLocationToAddress(latitude: Double, longitude: Double) {
-
-        suspendCancellableCoroutine<Unit> { continuation ->
-            var addressName = ""
-            geocoder?.getFromLocation(latitude, longitude, 1, object : Geocoder.GeocodeListener {
-                override fun onGeocode(addresses: MutableList<Address>) {
-                    for (address in addresses) {
-                        Log.d("address", address.getAddressLine(0))
-                        addressName = address.getAddressLine(0)
-                        tripPlaceList?.add(addressName)
-                    }
-                    // code
-                    continuation.resume(Unit)
-                }
-
-                override fun onError(errorMessage: String?) {
-                    super.onError(errorMessage)
-                    Log.d("error in changeLocationToAddress", errorMessage.orEmpty())
-                    continuation.resumeWithException(Exception(errorMessage))
-                }
-            })
-        }
+        }*/
     }
 }
