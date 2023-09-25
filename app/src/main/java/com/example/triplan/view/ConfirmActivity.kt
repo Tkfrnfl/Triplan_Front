@@ -44,7 +44,7 @@ class ConfirmActivity: AppCompatActivity() {
                 LocalDate.parse(json.asJsonPrimitive.asString)
             }).create()
 
-        val plan = gson.fromJson(planJson, Plan::class.java)
+        /*val plan = gson.fromJson(planJson, Plan::class.java)
         touristArea.text = plan.touristArea
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -84,28 +84,6 @@ class ConfirmActivity: AppCompatActivity() {
                     tripPlaceList.clear()
                 }
             }
-        }
-    }
-
-    private suspend fun changeLocationToAddress(latitude: Double, longitude: Double) {
-
-        suspendCancellableCoroutine<Unit> { continuation ->
-            var addressName = ""
-            geocoder?.getFromLocation(latitude, longitude, 1, object : Geocoder.GeocodeListener {
-                override fun onGeocode(addresses: MutableList<Address>) {
-                    for (address in addresses) {
-                        addressName = address.getAddressLine(0)
-                        tripPlaceList.add(addressName)
-                    }
-                    continuation.resume(Unit)
-                }
-
-                override fun onError(errorMessage: String?) {
-                    super.onError(errorMessage)
-                    Log.d("error in changeLocationToAddress", errorMessage.orEmpty())
-                    continuation.resumeWithException(Exception(errorMessage))
-                }
-            })
-        }
+        }*/
     }
 }
